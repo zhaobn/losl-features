@@ -14,9 +14,15 @@ def draw_figure(
 	synapse_edge_color="darkgreen"
 ):
 	# Create figure and axis
-	fig, ax = plt.subplots(figsize=(6, 6))
+	fig, ax = plt.subplots(figsize=(5, 5))
 	ax.set_aspect('equal')
 	ax.axis('off')
+	ax.set_facecolor('white')
+
+	# Define fixed plot limits for consistency
+	plot_limit = 3
+	ax.set_xlim(-plot_limit, plot_limit)
+	ax.set_ylim(-plot_limit, plot_limit)
 
   # Position synapses
 	synapse_positions = [
@@ -87,7 +93,7 @@ def draw_figure(
 # )
 # test.show()
 
-# %%
+#
 def draw_boolean_features(feat_arr=[1, 1, 1, 1, 1, 1, 1, 1]):
 	body_shape = "circle" if feat_arr[0] == 1 else "square"
 	body_fill = "darkgreen" if feat_arr[1] == 1 else "white"
@@ -106,7 +112,7 @@ def draw_boolean_features(feat_arr=[1, 1, 1, 1, 1, 1, 1, 1]):
   )
 
 	figure_name = ''.join([str(i) for i in feat_arr])
-	figure.savefig(figure_name, dpi=300, bbox_inches="tight")
+	figure.savefig(figure_name, dpi=300, bbox_inches="tight", pad_inches=0.1)
 	figure.show()
 
 # %% maximalist
@@ -115,8 +121,10 @@ draw_boolean_features([0, 0, 1, 0, 1, 1, 1, 1])
 draw_boolean_features([0, 1, 1, 1, 1, 0, 0, 1])
 draw_boolean_features([1, 0, 1, 1, 1, 1, 0, 0])
 
-# %% minimalist
+# minimalist
 draw_boolean_features([1, 1, 1, 0, 0, 0, 1, 0])
 draw_boolean_features([0, 0, 0, 1, 0, 0, 1, 0])
 draw_boolean_features([0, 1, 0, 0, 1, 1, 0, 0])
 draw_boolean_features([1, 0, 0, 0, 1, 0, 0, 1])
+
+# %%

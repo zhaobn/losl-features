@@ -6,10 +6,12 @@ import numpy as np
 # %%
 def draw_figure(
 	body_shape="circle",  # "circle" or "square"
-	body_color="darkgreen",
+	body_color="orange",
+	body_fill="orange",
 	line_thickness=3,
 	line_lengths=(1, 1, 1),
 	synapse_colors = ("red", "purple", "orange"),
+	synapse_fills = ("red", "purple", "orange"),
 	line_styles = ("isExtended", "hasFeathers", "thick")
 ):
 	# Create figure and axis
@@ -58,22 +60,23 @@ def draw_figure(
 
 	# Draw the main body (circle or square) **after** the lines
 	if body_shape == "circle":
-		body = patches.Circle((0, 0), 1, facecolor=body_color, edgecolor=body_color, linewidth=line_thickness, zorder=3)
+		body = patches.Circle((0, 0), 1, facecolor=body_fill, edgecolor=body_color, linewidth=line_thickness, zorder=3)
 	elif body_shape == "square":
-		body = patches.Rectangle((-1, -1), 2, 2, facecolor=body_color, edgecolor=body_color, linewidth=line_thickness, zorder=3)
+		body = patches.Rectangle((-1, -1), 2, 2, facecolor=body_fill, edgecolor=body_color, linewidth=line_thickness, zorder=3)
 	ax.add_patch(body)
 
 	# Draw synapses
-	for (x, y), color, shape in zip(
+	for (x, y), color, fill, shape in zip(
 		synapse_positions,
 		synapse_colors,
+		synapse_fills,
 		["diamond", "triangle", "semicircle"]
 	):
 		if shape == "diamond":
 			diamond = patches.Polygon(
 				[(x, y + 0.3), (x + 0.3, y), (x, y - 0.3), (x - 0.3, y)],
 				closed=True,
-				facecolor=color,
+				facecolor=fill,
 				edgecolor=color,
 				linewidth=line_thickness,
 				zorder=2
@@ -83,7 +86,7 @@ def draw_figure(
 			triangle = patches.Polygon(
 				[(x+0.2, y+0.2), (x-0.2, y+0.2), (x+0.2, y-0.2)],
 				closed=True,
-				facecolor=color,
+				facecolor=fill,
 				edgecolor=color,
 				linewidth=line_thickness,
 				zorder=2
@@ -95,7 +98,7 @@ def draw_figure(
 				r=0.3,
 				theta1=0,
 				theta2=180,
-				facecolor=color,
+				facecolor=fill,
 				edgecolor=color,
 				linewidth=line_thickness,
 				zorder=2
@@ -108,9 +111,11 @@ def draw_figure(
 test = draw_figure(
 	body_shape="circle",
   body_color="orange",
+	body_fill="white",
   line_lengths=(1, 1, 1),
   line_styles=("plain", "hasFeathers", "thick"),
   synapse_colors=("red", "blue", "green"),
+	synapse_fills=("white", "white", "white"),
 )
 test.show()
 
@@ -121,13 +126,17 @@ def draw_boolean_features(feat_arr=[1, 1, 1, 1, 1, 1, 1, 1]):
 	top_line = 1 if feat_arr[2] == 1 else 0.3
 	left_line = "hasFeathers" if feat_arr[3] == 1 else "plain"
 	right_line = "thick" if feat_arr[4] == 1 else "plain"
+	top_fill = "red" if feat_arr[5] == 1 else "white"
+	left_fill = "blue" if feat_arr[6] == 1 else "white"
+	right_fill = "green" if feat_arr[7] == 1 else "white"
 
 	figure = draw_figure(
 		body_shape,
-  	body_color,
+  	body_color, body_fill=body_color,
   	line_lengths=(top_line, 1, 1),
   	line_styles=("plain", left_line, right_line),
   	synapse_colors=("red", "blue", "green"),
+		synapse_fills=(top_fill, left_fill, right_fill),
   )
 
 	figure_name = ''.join([str(i) for i in feat_arr])
